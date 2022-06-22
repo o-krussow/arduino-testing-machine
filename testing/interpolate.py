@@ -52,8 +52,8 @@ def interpolate_results(data):
 
 def run_interpolate(numtimes, data):
     for time in range(numtimes):
-        print(time)
         data = interpolate_results(data)
+        print(time+1)
     return data
 
 
@@ -68,7 +68,7 @@ def main(args):
 
         list_to_csv(final_data, output_file)
     except ValueError:
-        print("Usage: ./smooth.py <input-file> <output-file>")
+        print("Usage: ./interpolate.py <input-file> <output-file> <iterations>")
 
 if __name__ == "__main__":
     args = sys.argv

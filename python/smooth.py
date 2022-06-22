@@ -2,9 +2,13 @@
 import sys 
 
 def deviation_from_average(average, value):
+    if average == 0:
+        average = 1
     return 1 - (value / average)
 
 def deviation_from_previous(previous, value):
+    if previous == 0:
+        previous = 1
     return 1 - (value / previous)
 
 
