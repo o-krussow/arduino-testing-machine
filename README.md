@@ -8,9 +8,11 @@ smooth-plot.sh Is the same as plot.sh, except that it applys a smoothing filter 
 
 smooth.py reads the data that ser.py outputs, and smooths out the outliers. Below is a before and after comparison.
 
-Example Graphs:
+
 Before:
 ![preprocessed out.png](./processing_demo/out.png)
+After processing by smooth.py:
+![first processed out.png](./processing_demo/pre-gnuplot-filter.png)
 After:
 ![processed out.png](./processing_demo/processed-out.png)
 
