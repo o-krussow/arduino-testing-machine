@@ -1,4 +1,4 @@
-##Arduino Wagon Wheel Testing Scripts
+## Arduino Wagon Wheel Testing Scripts
 
 The ser.py program reads from an arduino over serial to get temperature, then puts the data in test_data.csv
 
