@@ -2,13 +2,21 @@
 
 import serial
 import time
+import sys
 
-def begin_test(duration):
+
+def begin_test(duration, output_file):
+
+    duration = int(duration)
 
     start = time.time()
     s = serial.Serial("/dev/ttyACM0", 115200)
+    previous_temperature = 0
+    temp_sum = 0
+    temp_count = 0
+    float_temp = 0
 
-    with open("test_results.csv", "w+") as f: 
+    with open(output_file, "w+") as f: 
         while True:
             line_bytes = s.readline()
             try:
@@ -17,22 +25,29 @@ def begin_test(duration):
                 
                 if len(split_line) == 1:
                     temperature = split_line[0]
-                    
                     elapsed_time = time.time() - start
-                
+
+
                     f.write(str(elapsed_time)+","+temperature+"\n")
                     print(str(elapsed_time)+","+temperature)
-                
+                    
+
                     if elapsed_time > duration:
                         break
 
             except UnicodeDecodeError:
                 continue
 
-
+def main(args):
+    try:
+        duration, output_file = args[1:]
+        begin_test(duration, output_file)
+    except ValueError:
+        print("Usage: ./ser.py <duration> <output-file>")
     
 if __name__ == "__main__":
-    begin_test(30)
+    args = sys.argv
+    main(args)
 
 
 
