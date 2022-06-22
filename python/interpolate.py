@@ -54,6 +54,17 @@ def interpolate_results(data):
         back = index
         front = index+1
         if front < len(old_data):
+            '''
+            I like to conceptualize this as:
+             <back> <> <front>
+               ^    ^    ^
+               |    |    |
+            index   |    |
+                average  |
+                      index+1
+            where back and front are both elements of the list (data)
+            And "average" is the element that we are making up    
+            '''
             back_time = old_data[back][0]
             front_time = old_data[front][0]
 
