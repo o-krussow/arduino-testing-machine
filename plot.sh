@@ -1,1 +1,1 @@
-gnuplot -e "set terminal png size 1200,600; set output './png_results/out.png'; set datafile separator ','; set xlabel 'Seconds'; set ylabel 'Degrees C'; set timefmt '%S'; plot './csv/test_results.csv' with lines"
+gnuplot -e "set terminal png size 1200,600; set output '$2'; set datafile separator ','; set xlabel 'Seconds'; set ylabel 'Degrees C'; set timefmt '%S'; plot '$1' with lines"
