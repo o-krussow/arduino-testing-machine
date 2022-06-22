@@ -6,7 +6,7 @@ import time
 def begin_test(duration):
 
     start = time.time()
-    s = serial.Serial("/dev/ttyACM0", 9600)
+    s = serial.Serial("/dev/ttyACM0", 115200)
 
     with open("test_results.csv", "w+") as f: 
         while True:

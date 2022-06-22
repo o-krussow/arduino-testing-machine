@@ -40,7 +40,7 @@ Adafruit_MAX31855 thermocouple(MAXCLK, MAXCS, MAXDO);
 //Adafruit_MAX31855 thermocouple(MAXCS, SPI1);
 
 void setup() {
-  Serial.begin(9600);
+  Serial.begin(115200);
 
   while (!Serial) delay(1); // wait for Serial on Leonardo/Zero, etc
 
@@ -66,5 +66,5 @@ void loop() {
    }
 
 
-   delay(25);
+   delay(5);
 }
