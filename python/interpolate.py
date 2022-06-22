@@ -1,4 +1,26 @@
 #!/usr/bin/env python3
+
+'''
+Written by Owen Krussow
+June 22nd, 2022
+
+My initial thought was that this program would exist to create "higher resolution" data from the original data, since the original data appeared very jagged in the graphs.
+
+I don't think this ended up being as necessary as I thought, gnuplot and smooth.py seem to do a good enough job.
+
+Explanation for how this works:
+    Lets say the original data looks like this: 
+        1 second: 25C, 2 second: 26C, 3 second: 26.5C
+
+        After being run once through this program:
+
+        1 second: 25C, 1.5 second: 25.5C, 2 second: 26C, 2.5 second: 26.25C, 3 second: 26.5C
+
+        A second time:
+
+        1 second: 25C, 1.25 second: 25.25C, etc
+'''
+
 import sys 
 
 def average_points(p1, p2):

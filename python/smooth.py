@@ -1,4 +1,19 @@
 #!/usr/bin/env python3
+
+'''
+Written by Owen Krussow
+June 22nd, 2022
+
+This program removes weird spikes from data
+
+It works by looking through the data, then comparing the current value to the previous value. If the new value deviates greater than +/-12%, then deviation_detected is set to true.
+When deviation_detected is set to true, new data is ignored until another deviation happens, then deviation_detected is set to false.
+
+The deviation percentage can be tweaked easily down below, the variable name is deviation_tolerance
+
+We ignore data between deviations since any "spike" is going to have an upwards deviation before correcting with a downwards deviation.
+'''
+
 import sys 
 
 def deviation_from_average(average, value):
@@ -18,8 +33,8 @@ def smooth_results(old_file, new_file):
     float_prev_temp = 0
     prev_temp = ""
     deviation_detected = False
+    deviation_tolerance = 0.12
 
-                        #deviation, sec
     highest_av_deviation = [0, ""]
     highest_prev_deviation = [0, ""]
 
@@ -48,7 +63,7 @@ def smooth_results(old_file, new_file):
                     highest_prev_deviation[1] = sec
 
 
-                if -0.12 <= prev_deviation <= 0.12:
+                if (-deviation_tolerance <= prev_deviation <= deviation_tolerance:
                     if not deviation_detected:
                         nf.write(sec+","+temp+"\n")
                         #print(sec+","+temp)

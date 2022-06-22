@@ -1,16 +1,29 @@
 #!/usr/bin/env python3
 
+'''
+Written by Owen Krussow
+June 22nd, 2022
+
+This program reads in temperature (and soon, current) data over serial from an arduino and writes it into a csv in relation to time.
+
+serial_device and baud_rate as defined below are important, change as necessary.
+'''
+
 import serial
 import time
 import sys
 
 
 def begin_test(duration, output_file):
+    #Change these as needed---------
+    serial_device = "/dev/ttyACM0"
+    baud_rate = 115200
+    #-------------------------------
 
     duration = int(duration)
-
     start = time.time()
-    s = serial.Serial("/dev/ttyACM0", 115200)
+    s = serial.Serial(serial_device, baud_rate)
+
     previous_temperature = 0
     temp_sum = 0
     temp_count = 0
