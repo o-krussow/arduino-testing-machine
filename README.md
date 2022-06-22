@@ -13,7 +13,7 @@ Before:
 ![preprocessed out.png](./processing_demo/out.png)
 After processing by smooth.py:
 ![first processed out.png](./processing_demo/pre-gnuplot-filter.png)
-After:
+After gnuplot smoothing:
 ![processed out.png](./processing_demo/processed-out.png)
 
 I still need to add support for multiple "streams" over serial, I just need to figure out the best way to do that.
