@@ -15,5 +15,8 @@ After processing by smooth.py:
 ![first processed out.png](./processing_demo/pre-gnuplot-filter.png)
 After gnuplot smoothing:
 ![processed out.png](./processing_demo/processed-out.png)
+Using both smooth.py and gnuplot smoothing:
+![double processed out.png](./processing_demo/gnuplot-and-smoothpy-out.png)
+
 
 I still need to add support for multiple "streams" over serial, I just need to figure out the best way to do that.
