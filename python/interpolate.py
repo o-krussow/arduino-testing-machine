@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+import lcu
+
 '''
 Written by Owen Krussow
 June 22nd, 2022
@@ -25,24 +27,6 @@ import sys
 
 def average_points(p1, p2):
     return (p1+p2)/2
-
-def read_into_list(filename):
-    retlist = []
-    with open(filename, "r") as f:
-        f_contents = f.read()
-    
-    line_list = f_contents.split("\n")
-    for line in line_list:
-        split_line = line.split(",")
-        if len(split_line) > 0 and split_line[0] != "" and split_line[1] != "":
-            retlist.append([float(split_line[0]), float(split_line[1])])
-    
-    return retlist
-
-def list_to_csv(data, filename):
-    with open(filename, "w+") as f:
-        for element in data:
-            f.write(str(element[0])+","+str(element[1])+"\n")
 
 
 def interpolate_results(data):
@@ -95,11 +79,11 @@ def main(args):
         input_file, output_file, numtimes = args[1:4]
         numtimes = int(numtimes)
 
-        input_file_list = read_into_list(input_file)
+        input_file_list = lcu.read_into_list(input_file)
 
         final_data = run_interpolate(numtimes, input_file_list)
 
-        list_to_csv(final_data, output_file)
+        lcu.list_to_csv(final_data, output_file)
     except ValueError:
         print("Usage: ./interpolate.py <input-file> <output-file> <iterations>")
 

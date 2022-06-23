@@ -12,7 +12,7 @@ serial_device and baud_rate as defined below are important, change as necessary.
 import serial
 import time
 import sys
-
+import lcu
 
 def begin_test(duration, output_file):
     #Change these as needed---------
@@ -36,27 +36,27 @@ def begin_test(duration, output_file):
                 line = line_bytes.decode('utf-8').strip() #line_bytes is a byte string, so we want to encode that byte string into utf-8 so it's easier to work with. strip() removes the \r\n from the end of the string.
                 split_line = line.split(" ")
                 
-                if len(split_line) == 1:
+                elapsed_time = time.time() - start
+                if len(split_line) == 1 and elapsed_time > 0.3:
                     temperature = split_line[0]
-                    elapsed_time = time.time() - start
 
 
                     f.write(str(elapsed_time)+","+temperature+"\n")
                     print(str(elapsed_time)+","+temperature)
                     
 
-                    if elapsed_time > duration:
-                        break
+                if elapsed_time > duration:
+                    break
 
             except UnicodeDecodeError:
                 continue
 
 def main(args):
     try:
-        duration, output_file = args[1:]
+        output_file, duration = args[1:]
         begin_test(duration, output_file)
     except ValueError:
-        print("Usage: ./ser.py <duration> <output-file>")
+        print("Usage: ./ser.py <output-file> <duration>")
     
 if __name__ == "__main__":
     args = sys.argv
