@@ -34,7 +34,10 @@ def smooth_results(if_contents):
     prev_temp = 0
     prev_temp = ""
     deviation_detected = False
-    deviation_tolerance = 0.12
+    
+    #This tolerance needs to be pretty high if using a low sample rate, like maybe 0.5 or so
+    deviation_tolerance = 0.3
+
 
     highest_av_deviation = [0, 0]
     highest_prev_deviation = [0, 0]
@@ -80,8 +83,8 @@ def smooth_results(if_contents):
         except ValueError:
             continue
     
-    print("Highest from average: ", highest_av_deviation)
-    print("Highest from previous: ", highest_prev_deviation)
+    print("Highest from average: ", "Deviation:", str(highest_av_deviation[0]*100)+"%", "at second:", highest_av_deviation[1])
+    print("Highest from previous: ", "Deviation:", str(highest_prev_deviation[0]*100)+"%", "at second:", highest_prev_deviation[1])
 
     return results
 
