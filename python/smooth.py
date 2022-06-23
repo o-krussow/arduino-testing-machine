@@ -14,6 +14,7 @@ The deviation percentage can be tweaked easily down below, the variable name is 
 We ignore data between deviations since any "spike" is going to have an upwards deviation before correcting with a downwards deviation.
 '''
 
+import lcu
 import sys 
 
 def deviation_from_average(average, value):
@@ -27,70 +28,73 @@ def deviation_from_previous(previous, value):
     return 1 - (value / previous)
 
 
-def smooth_results(old_file, new_file):
+def smooth_results(if_contents):
     temp_sum = 0
     temp_count = 0
-    float_prev_temp = 0
+    prev_temp = 0
     prev_temp = ""
     deviation_detected = False
     deviation_tolerance = 0.12
 
-    highest_av_deviation = [0, ""]
-    highest_prev_deviation = [0, ""]
+    highest_av_deviation = [0, 0]
+    highest_prev_deviation = [0, 0]
 
-    with open(old_file, "r") as of:
-        of_contents = of.read()
+    results = [] 
 
-    with open(new_file, "w+") as nf:
-        for of_line in of_contents.split("\n"):
-            try:
-                sec, temp = of_line.split(",")
-                float_temp = float(temp)
-                temp_sum += float_temp
-                temp_count += 1
+    for if_line in if_contents:
+        try:
+            sec, temp = if_line
+            sec, temp = float(sec), float(temp)
+            
+            temp_sum += temp
+            temp_count += 1
 
-                if temp_count == 1:
-                    float_prev_temp = float_temp
+            if temp_count == 1:
+                prev_temp = temp
 
-                av_deviation = deviation_from_average((temp_sum/temp_count), float_temp)
-                prev_deviation = deviation_from_previous(float_prev_temp, float_temp)
+            av_deviation = deviation_from_average((temp_sum/temp_count), temp)
+            prev_deviation = deviation_from_previous(prev_temp, temp)
 
-                if av_deviation > highest_av_deviation[0]:
-                    highest_av_deviation[0] = av_deviation
-                    highest_av_deviation[1] = sec
-                if prev_deviation > highest_prev_deviation[0]:
-                    highest_prev_deviation[0] = prev_deviation
-                    highest_prev_deviation[1] = sec
+            if av_deviation > highest_av_deviation[0]:
+                highest_av_deviation[0] = av_deviation
+                highest_av_deviation[1] = sec
+            if prev_deviation > highest_prev_deviation[0]:
+                highest_prev_deviation[0] = prev_deviation
+                highest_prev_deviation[1] = sec
 
 
-                if (-deviation_tolerance <= prev_deviation <= deviation_tolerance):
-                    if not deviation_detected:
-                        nf.write(sec+","+temp+"\n")
-                        #print(sec+","+temp)
-                    #else:
-                    #    nf.write(sec+","+temp+"\n")
-                    #    print(sec+","+temp)
+            if (-deviation_tolerance <= prev_deviation <= deviation_tolerance):
+                if not deviation_detected:
+                    results.append([sec, temp])
 
-                else:                                   #If current temperature exceeds deviation quota, then just write the previous temperature to smooth things out
-                    if deviation_detected:
-                        deviation_detected = False
-                    else:
-                        deviation_detected = True
-                    #print("DEVIATION AT",sec)
 
-                prev_temp = str(float_temp)
-                float_prev_temp = float_temp
-                
-            except ValueError:
-                continue
+            else: #If current temperature exceeds deviation quota, then just write the previous temperature to smooth things out
+                if deviation_detected:
+                    deviation_detected = False
+                else:
+                    deviation_detected = True
+                print("DEVIATION AT",sec)
+
+            prev_temp = temp
+            
+        except ValueError:
+            continue
     
-    print(highest_av_deviation)
-    print(highest_prev_deviation)
+    print("Highest from average: ", highest_av_deviation)
+    print("Highest from previous: ", highest_prev_deviation)
+
+    return results
 
 def main(args):
     try:
         input_file, output_file = args[1:3]
-        smooth_results(input_file, output_file)
+        
+        if_to_list = lcu.read_into_list(input_file)
+
+        final_data = smooth_results(if_to_list)
+
+        lcu.list_to_csv(final_data, output_file)
+
     except ValueError:
         print("Usage: ./smooth.py <input-file> <output-file>")
 
