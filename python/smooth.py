@@ -63,7 +63,7 @@ def smooth_results(old_file, new_file):
                     highest_prev_deviation[1] = sec
 
 
-                if (-deviation_tolerance <= prev_deviation <= deviation_tolerance:
+                if (-deviation_tolerance <= prev_deviation <= deviation_tolerance):
                     if not deviation_detected:
                         nf.write(sec+","+temp+"\n")
                         #print(sec+","+temp)
