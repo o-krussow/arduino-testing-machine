@@ -36,7 +36,7 @@ def smooth_results(if_contents):
     deviation_detected = False
     
     #This tolerance needs to be pretty high if using a low sample rate, like maybe 0.5 or so
-    deviation_tolerance = 0.3
+    deviation_tolerance = 0.2
 
 
     highest_av_deviation = [0, 0]
@@ -74,15 +74,20 @@ def smooth_results(if_contents):
             else: #If current temperature exceeds deviation quota, then just write the previous temperature to smooth things out
                 if deviation_detected:
                     deviation_detected = False
+                    print("DEVIATION END AT",sec)
                 else:
+                    results.append([sec, prev_temp]) #add last temperature instead of crazy temperature
                     deviation_detected = True
-                print("DEVIATION AT",sec)
+                    print("DEVIATION START AT",sec)
 
             prev_temp = temp
             
         except ValueError:
             continue
     
+    if deviation_detected:
+        print("Warning: End of deviation not found, output file likely to have incorrect contents. This means something was wrong with the input, likely a large plateau happening until the end of the file.")
+
     print("Highest from average: ", "Deviation:", str(highest_av_deviation[0]*100)+"%", "at second:", highest_av_deviation[1])
     print("Highest from previous: ", "Deviation:", str(highest_prev_deviation[0]*100)+"%", "at second:", highest_prev_deviation[1])
 
