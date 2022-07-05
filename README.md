@@ -1,6 +1,6 @@
 ## Arduino Wagon Wheel Testing Scripts
 
-The ser.py program reads from an arduino over serial to get temperature, then puts the data in test_data.csv
+The ser.py program reads from an arduino over serial to get temperature from the thermocouple, then puts the data in test_data.csv
 
 This data can then be read in by gnuplot using ./plot.sh to make a graph
 
